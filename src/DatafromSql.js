@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Table, Form, Button, Modal,Container, Col, Row} from 'react-bootstrap';
 import axios from 'axios';
+
 import {PieChart, BarChart, LineChart} from 'react-easy-chart';
 import PieChartNew from './PieChartNew';
 import KendoUILayout from './KendoUILayout';
@@ -42,7 +43,8 @@ export default class DatafromSql extends Component {
 
     handleSubmit =(e) =>{
       e.preventDefault();
-      console.log(this.state.selectedFile);
+     
+      console.log("handle Submit state",this.state.selectedFile);
       const formData = new FormData();
 
     // let file =[0]
@@ -52,9 +54,13 @@ export default class DatafromSql extends Component {
     // })
 // console.log(formData);
 
-      formData.append('file', this.state.selectedFile)
-  
-        const { keyword} = this.state;
+      formData.append('file', this.state.selectedFile);
+      console.log(formData.get('file'));
+      for (const entry of formData.entries())
+      {
+          console.log(entry);
+      }
+        const { keyword, selectedFile} = this.state;
 
       // console.log(keyword);
       const config = {
@@ -64,7 +70,7 @@ export default class DatafromSql extends Component {
       }
   
     
-      axios.post(`http://localhost:3001/file`, formData, config )
+      axios.post('http://localhost:3001/file', formData, config )
       .then((response) => {
         console.log(response);
     }).catch((error) => {
@@ -88,22 +94,18 @@ export default class DatafromSql extends Component {
       {/* <div> */}
 
        
-       <Form>
-  {/* <Form.Group controlId="formBasicEmail">
-    <Form.Label>Enter Keyword to Search</Form.Label>
-    <Form.Control onChange ={this.handleChange} type="text" placeholder="Enter Keyword" />
-    <Form.Text className="text-muted">
-      Tweet! Tweet! Tweet!
-    </Form.Text>
-  </Form.Group> */}
+       <Form method = "POST" encType = "multipart/form-data">
+  
   <Form.Group controlId="formBasicEmail">
     <Form.Label>Choose File to Upload</Form.Label>
-    <Form.Control name = "selectedFile" type="file" accept='.csv' placeholder="" style={{marginLeft: '45%', marginRigh: '45%'}}  onChange={this.handleselectedFile.bind(this)}/>
+    <Form.Control name = "fileupload" type="file" accept='.csv' placeholder="" style={{marginLeft: '45%', marginRigh: '45%'}}  onChange={this.handleselectedFile}/>
   </Form.Group>
   <Button onClick= {this.handleSubmit} variant="primary" type="submit">
     Submit
   </Button>
 </Form> 
+
+
       {/* </div> */}
 
 {/* <BarChart
