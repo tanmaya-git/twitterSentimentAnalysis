@@ -1,10 +1,12 @@
 .App {
   text-align: center;
-  color: 'red'
+  color: 'red';
+  overflow-x: hidden;
 }
 
 .body {
  color: #282c34;
+ overflow-x: hidden;
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@progress/kendo-data-query": "^1.5.0",
+    "@progress/kendo-file-saver": "^1.0.7",
     "@progress/kendo-react-buttons": "^2.6.1",
     "@progress/kendo-react-conversational-ui": "^2.6.1",
     "@progress/kendo-react-dateinputs": "^2.6.1",
@@ -11,6 +12,8 @@
     "@progress/kendo-react-grid": "^2.6.1",
     "@progress/kendo-react-inputs": "^2.6.1",
     "@progress/kendo-react-intl": "^2.6.1",
+    "@progress/kendo-react-upload": "^2.6.1",
+    "@progress/kendo-upload-react-wrapper": "^2018.3.1017",
     "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
     "chart.js": "^2.7.3",

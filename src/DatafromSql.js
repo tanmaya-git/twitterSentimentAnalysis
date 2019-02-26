@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Table, Form, Button, Modal,Container, Col, Row} from 'react-bootstrap';
 import axios from 'axios';
-
 import {PieChart, BarChart, LineChart} from 'react-easy-chart';
 import PieChartNew from './PieChartNew';
 import KendoUILayout from './KendoUILayout';

@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Chat } from '@progress/kendo-react-conversational-ui';
+import { Upload } from '@progress/kendo-react-upload';
+import {Form} from 'react-bootstrap';
+import { Button} from '@progress/kendo-react-buttons';
 import axios from 'axios';
 
 
@@ -13,6 +16,7 @@ export default class App extends React.Component {
         };
         this.bot = { id: 0 };
         this.state = {
+            files: [],
             sqlData: [],
             keyword : '',
             messages: [
@@ -28,13 +32,56 @@ export default class App extends React.Component {
                         }
                     ],
                     timestamp: new Date(),
-                    text: 'Hi, this is Geeni...Please enter the keyword you want to search!',
+                    text: 'Hola! This is Geenie.',
                    
+                },
+                {
+                    author: this.bot,
+                    timestamp: new Date(),
+                    text: 'Welcome to Twitter Sentiment Analysis!',
+                   
+                      
+                },
+                {
+                    author: this.bot,
+                    timestamp: new Date(),
+                    text: 'Type in a keyword to get the Sentiment  or choose a CSV file.',
+                   
+                      
+                },
+                {
+                    author: this.bot,
+                    timestamp: new Date(),
+                //     text:  <Upload
+                //     batch={false}
+                //     restrictions={{
+                //         allowedExtensions: [ '.csv']
+                //     }}
+                //     autoUpload = {false}
+                //     onAdd = {this.handleAdd.bind(this)}
+                //     multiple={false}
+                //     defaultFiles={[]}
+                //     files = {this.files}
+                //     withCredentials={false}
+                //     saveUrl={'https://demos.telerik.com/kendo-ui/service-v4/upload/save'}
+                //     removeUrl={'https://demos.telerik.com/kendo-ui/service-v4/upload/remove'}
+                // />
+                // text: <Form method = "POST" encType = "multipart/form-data" >
+                text: <Form >
+                <Form.Group controlId="formBasicEmail" pullLeft >
+                  <Form.Control name = "fileupload" type="file" accept='.csv' placeholder="" style = {{color: 'green'}} />
+                </Form.Group>
+                <Button primary={true}>Upload</Button>
+              </Form> 
+              
+                   
+                      
                 }
             ]
         };
     }
 
+    
     addNewMessage = (event) => {
         let botResponce = Object.assign({}, event.message);
         console.log(event.message.text);
@@ -89,7 +136,9 @@ export default class App extends React.Component {
                     onMessageSend={this.addNewMessage}
                     placeholder={"Type a keyword..."}
                     width={400}>
+                   
                 </Chat>
+                
             </div>
         );
     }
