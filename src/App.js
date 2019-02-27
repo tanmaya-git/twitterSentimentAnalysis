@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Search from './Search.js';
-import {Navbar, Nav,Form, Table} from 'react-bootstrap';
+import {Navbar, Nav, FormControl, Form, Button} from 'react-bootstrap';
 import { Route,Switch } from 'react-router';
 import { Redirect, BrowserRouter } from 'react-router-dom';
 import input from './input';
@@ -27,21 +27,25 @@ class App extends Component {
     </Navbar.Brand>
    
    <Nav className="mr-auto" style={{color: 'white'}}>
-      <Nav.Item style ={{marginRight: '10px', fontSize: '15px'}} href="#home">Twitter Sentiment analysis</Nav.Item>
-      <Nav.Item style ={{marginLeft:'50px',marginRight: '10px', fontSize: '15px'}} href="#home">Home</Nav.Item>
-      <Nav.Item style ={{marginRight: '10px', fontSize: '15px'}} href="#features">Features</Nav.Item>
-      <Nav.Item style ={{marginRight: '10px', fontSize: '15px'}} href="#pricing">Pricing</Nav.Item>
+      <Nav.Item style ={{marginRight: '10px', fontSize: '15px'}} href="/">Twitter Sentiment analysis</Nav.Item>
+      <Nav.Link style ={{marginLeft:'50px',marginRight: '10px', fontSize: '15px'}} href="/">Home</Nav.Link>
+      <Nav.Link style ={{marginRight: '10px', fontSize: '15px'}} href = '/sql'>SQL Data</Nav.Link>
+      <Nav.Link style ={{marginRight: '10px', fontSize: '15px'}} href="/">Keyword</Nav.Link>
     </Nav>
+    <Form inline>
+      <FormControl style = {{height: '30px'}} type="text" placeholder="Search" className="mr-sm-2" />
+      <Button variant= ' outline' style={{color: 'white'}}>Search</Button>
+    </Form>
   </Navbar>
         <div style={{marginTop : '5px'}}>
         
 <BrowserRouter>
         <Switch> 
-        <Route exact path="/" component={Search} />
+        <Route exact path="/" component={KendoUILayout} />
         <Route exact path="/input" component={input} />
         <Route exact path="/chart" component={PieChartNew} />
         <Route exact path="/sql" component={DatafromSql} />
-        <Route exact path="/kendoui" component={KendoUILayout} />
+        <Route exact path="/search" component={Search} />
         </Switch>
         </BrowserRouter>
         </div>
