@@ -17,6 +17,7 @@ export default class App extends React.Component {
         this.bot = { id: 0 };
         this.state = {
             files: [],
+            upload: false,
             sqlData: [],
             keyword : '',
             messages: [
@@ -68,10 +69,10 @@ export default class App extends React.Component {
                 // />
                 // text: <Form method = "POST" encType = "multipart/form-data" >
                 text: <Form >
-                <Form.Group controlId="formBasicEmail" pullLeft >
-                  <Form.Control name = "fileupload" type="file" accept='.csv' placeholder="" style = {{color: 'green'}} />
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Control name = "fileupload" type="file" accept='.csv' placeholder="" style = {{color: 'green'}} onChange={this.handleselectedFile} />
                 </Form.Group>
-                <Button primary={true}>Upload</Button>
+                <Button onClick= {this.handleSubmit} primary={true}>Upload</Button>
               </Form> 
               
                    
@@ -83,10 +84,55 @@ export default class App extends React.Component {
 
     
     addNewMessage = (event) => {
+console.log(this.state.upload)
+      if(this.state.upload === true){
+         let  messageFile = {
+            author: this.bot,
+            timestamp: new Date(),
+            text: '',
+            suggestedActions: [
+                {
+                    type: 'alert',
+                    value: 'Area chart'
+                }, {
+                    type: 'alert',
+                    value: 'Bar Chart'
+                },
+                {
+                    type: 'alert',
+                    value: 'Box Chart'
+                }
+            ],   
+        };
+        let botResponce = Object.assign({}, messageFile);
+        botResponce.text = this.countReplayLengthFile('');
+        botResponce.author = this.bot;
+        this.setState((prevState) => ({
+            messages: [
+                ...prevState.messages,
+                messageFile
+            ]
+        }));
+        setTimeout(() => {
+            this.setState(prevState => ({
+                messages: [
+                    ...prevState.messages,
+                    botResponce
+                ]
+            }));
+        }, 1000);
+
+        this.setState({ upload: false});
+
+      }
+ else {
+
+
         let botResponce = Object.assign({}, event.message);
         console.log(event.message.text);
         // this.setState({ keyword : event.message.text});
         // console.log(this.state.keyword);
+       
         botResponce.text = this.countReplayLength(event.message.text);
         botResponce.author = this.bot;
         this.setState((prevState) => ({
@@ -103,13 +149,71 @@ export default class App extends React.Component {
                 ]
             }));
         }, 1000);
+    }
     };
 
-    // countReplayLength = (question) => {
-    //     let length = question.length;
-    //     let answer = question + " contains exactly " + length + " symbols.";
-    //     return answer;
-    // }
+    onAction = (event) => {
+        if (event.action.type === 'alert') {
+            this.setState((prevState) => {
+                return { messages: [ ...prevState.messages, { author: this.user, text: 'Oh you chose ' + event.action.value + ' . \n Great choice! Refresh the page to view the results.'} ] };
+            });
+        }
+    }
+
+    handleChange = (e) =>{
+        const keyword = e.target.value;
+        this.setState({keyword});
+        console.log(this.state.keyword);
+    }
+
+
+    handleselectedFile = (e) => {
+      // console.log(e.target.files[0]);
+      let abc = e.target.files[0];
+
+      this.setState({ selectedFile: abc });
+      console.log(this.state.selectedFile);
+    }
+
+    handleSubmit =(e) =>{
+      e.preventDefault();
+      this.setState({ upload : true}, () => { 
+        this.addNewMessage('file');
+    });
+    
+    //   this.setState({ upload : true});
+     
+      console.log("handle Submit state",this.state.selectedFile);
+      const formData = new FormData();
+
+      formData.append('file', this.state.selectedFile);
+      console.log(formData.get('file'));
+      for (const entry of formData.entries())
+      {
+          console.log(entry);
+      }
+        const { keyword, selectedFile} = this.state;
+
+      // console.log(keyword);
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+  
+    
+      axios.post('http://localhost:3001/file', formData, config )
+      .then((response) => {
+        console.log(response);
+    }).catch((error) => {
+})
+}
+
+countReplayLengthFile =(question) =>{
+    console.log("question",question);
+    let answer =  " Please refresh the page to see the results for uploaded file. ";
+return answer;
+  }
 
 
     countReplayLength =(question) =>{
@@ -124,7 +228,7 @@ export default class App extends React.Component {
           console.log(res.data);
         });
 
-        let answer =  " Voila! Please see charts for your keyword : " + question ;
+        let answer =  " Please refresh the page to see the results for " + question ;
   return answer;
       }
 
@@ -135,7 +239,9 @@ export default class App extends React.Component {
                     messages={this.state.messages}
                     onMessageSend={this.addNewMessage}
                     placeholder={"Type a keyword..."}
-                    width={400}>
+                    width={400}
+                    onActionExecute={this.onAction}
+                   >
                    
                 </Chat>
                 

@@ -25,56 +25,56 @@ export default class DatafromSql extends Component {
          
     }
 
-    handleChange = (e) =>{
-        const keyword = e.target.value;
-        this.setState({keyword});
-        console.log(this.state.keyword);
-    }
+    // handleChange = (e) =>{
+    //     const keyword = e.target.value;
+    //     this.setState({keyword});
+    //     console.log(this.state.keyword);
+    // }
 
 
-    handleselectedFile = (e) => {
-      // console.log(e.target.files[0]);
-      let abc = e.target.files[0];
+//     handleselectedFile = (e) => {
+//       // console.log(e.target.files[0]);
+//       let abc = e.target.files[0];
 
-      this.setState({ selectedFile: abc });
-      console.log(this.state.selectedFile);
-    }
+//       this.setState({ selectedFile: abc });
+//       console.log(this.state.selectedFile);
+//     }
 
-    handleSubmit =(e) =>{
-      e.preventDefault();
+//     handleSubmit =(e) =>{
+//       e.preventDefault();
      
-      console.log("handle Submit state",this.state.selectedFile);
-      const formData = new FormData();
+//       console.log("handle Submit state",this.state.selectedFile);
+//       const formData = new FormData();
 
-    // let file =[0]
-    //   this.state.selectedFile.map(function (item, i) {
-    //     console.log('item_if', item);
-    //     formData.append(file[0], item);
-    // })
-// console.log(formData);
+//     // let file =[0]
+//     //   this.state.selectedFile.map(function (item, i) {
+//     //     console.log('item_if', item);
+//     //     formData.append(file[0], item);
+//     // })
+// // console.log(formData);
 
-      formData.append('file', this.state.selectedFile);
-      console.log(formData.get('file'));
-      for (const entry of formData.entries())
-      {
-          console.log(entry);
-      }
-        const { keyword, selectedFile} = this.state;
+//       formData.append('file', this.state.selectedFile);
+//       console.log(formData.get('file'));
+//       for (const entry of formData.entries())
+//       {
+//           console.log(entry);
+//       }
+//         const { keyword, selectedFile} = this.state;
 
-      // console.log(keyword);
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      }
+//       // console.log(keyword);
+//       const config = {
+//         headers: {
+//           'content-type': 'multipart/form-data'
+//         }
+//       }
   
     
-      axios.post('http://localhost:3001/file', formData, config )
-      .then((response) => {
-        console.log(response);
-    }).catch((error) => {
-})
-}
+//       axios.post('http://localhost:3001/file', formData, config )
+//       .then((response) => {
+//         console.log(response);
+//     }).catch((error) => {
+// })
+// }
 
     render(){
         const {sqlData} = this.state;
@@ -93,7 +93,7 @@ export default class DatafromSql extends Component {
       {/* <div> */}
 
        
-       <Form method = "POST" encType = "multipart/form-data">
+      {/*} <Form method = "POST" encType = "multipart/form-data">
   
   <Form.Group controlId="formBasicEmail">
     <Form.Label>Choose File to Upload</Form.Label>
@@ -102,7 +102,7 @@ export default class DatafromSql extends Component {
   <Button onClick= {this.handleSubmit} variant="primary" type="submit">
     Submit
   </Button>
-</Form> 
+  </Form> */}
 
 
       {/* </div> */}
