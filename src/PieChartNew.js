@@ -5,7 +5,13 @@ import { csvParse } from 'd3-dsv';
 import axios from 'axios';
 import {PieChart,LineChart} from 'react-easy-chart';
 import {Container, Col, Row} from 'react-bootstrap';
-
+import {
+  Chart,
+  ChartLegend,
+  ChartSeries,
+  ChartSeriesItem
+} from '@progress/kendo-react-charts';
+import 'hammerjs';
 
 const width = 960,
   height = 500,
@@ -106,7 +112,14 @@ console.log(line);
       <Container>
   <Row>
     <Col>
-    <PieChart
+
+    <Chart seriesColors={['orange', 'lightblue','yellow']}>
+    <ChartLegend position="top" />
+    <ChartSeries>
+      <ChartSeriesItem type="pie" data={chartData} field="value" categoryField="key" />
+    </ChartSeries>
+  </Chart>
+    {/* <PieChart
  labels 
 size={300}
 data={chartData}
@@ -116,7 +129,7 @@ styles={{
     fill: '#fff'
   }
 }}
-/>
+/> */}
     </Col>
     <Col>
     {/* <LineChart
@@ -130,6 +143,9 @@ styles={{
     interpolate={'cardinal'}
     data={ line }
   /> */}
+
+
+  
   </Col>
   </Row>
   
