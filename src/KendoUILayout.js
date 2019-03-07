@@ -6,6 +6,9 @@ import {Form,Container, Col, Row} from 'react-bootstrap';
 import { Button} from '@progress/kendo-react-buttons';
 import axios from 'axios';
 import PieChartNew from './PieChartNew';
+import TopTweets from './TopTweets';
+import { Push, Slide } from '@progress/kendo-react-animation';
+import './kendoUI.css';
 import { Dialog, Window } from '@progress/kendo-react-dialogs';
 import {
     Chart,
@@ -25,6 +28,7 @@ import {
 
 
 
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -36,13 +40,16 @@ export default class App extends React.Component {
         avatarUrl: 'https://avatars.dicebear.com/v2/identicon/1b52dbaf5fae39f76932a127379ab8b7.svg'
                     };
         this.state = {
+            initial: true,
             files: [],
             area : false,
             bar: false,
+            pie : false,
             upload: false,
             barData: [],
             visibleWindow: false,
             keyword : '',
+            sqlData : [],
             messages: [
                 {
                     author: this.bot,
@@ -132,14 +139,18 @@ console.log(this.state.upload)
             suggestedActions: [
                 {
                     type: 'alert',
-                    value: 'Area chart'
+                    value: 'Pie chart'
                 }, {
                     type: 'alert',
                     value: 'Bar Chart'
                 },
                 {
                     type: 'alert',
-                    value: 'Box Chart'
+                    value: 'Area chart'
+                },
+                {
+                    type: 'alert',
+                    value: 'Top Tweets'
                 }
             ],   
         };
@@ -192,14 +203,19 @@ console.log(this.state.upload)
                         suggestedActions: [
                             {
                                 type: 'alert',
-                                value: 'Area chart'
+                                value: 'Pie chart'
                             }, {
                                 type: 'alert',
                                 value: 'Bar Chart'
                             },
                             {
                                 type: 'alert',
-                                value: 'Box Chart'
+                                value: 'Area chart'
+                            },
+
+                            {
+                                type: 'alert',
+                                value: 'Top Tweets'
                             }
                         ],   
                     }
@@ -220,37 +236,52 @@ console.log(this.state.upload)
             suggestedActions: [
                 {
                     type: 'alert',
-                    value: 'Area chart'
+                    value: 'Pie chart'
                 }, {
                     type: 'alert',
                     value: 'Bar Chart'
                 },
                 {
                     type: 'alert',
-                    value: 'Box Chart'
+                    value: 'Area chart'
+                },
+                {
+                    type: 'alert',
+                    value: 'Top Tweets'
                 },]
                  } ] };
             });
             if(event.action.value === 'Area chart'){
                 this.setState ( { area: true,
-                                  bar : false});
+                                  bar : false,
+                                  pie : false,
+                                  intitial : false,
+                                });
             }
             else if (event.action.value === 'Bar Chart'){
                 this.setState ({ bar : true, 
+                    pie : false, 
+                    intitial : false, 
+                                 area : false});
+            }
+            else if (event.action.value === 'Pie chart'){
+                this.setState ({ pie : true,
+                                bar : false, 
+                                intitial : false,
                                  area : false});
             }
             else {
-                this.setState ({ bar : true, 
+                this.setState ({ bar : false, 
                     area : false,
+                    pie: false,
+                    intitial : false,
                     visibleWindow: true,
                 });
 
-                axios.get('http://localhost:3001/sql')
+                axios.get('http://localhost:3001/mysql')
                 .then(res => {
-                    const barData = res.data;
-                    console.log(res.data);
-                    this.setState({ barData });
-                    
+                    const sqlData = res.data;
+                    this.setState({ sqlData });
                 })
 
             }
@@ -330,7 +361,7 @@ return answer;
       }
 
     render() {
-        const {barData} = this.state;
+        const {barData, sqlData, visibleWindow} = this.state;
         let nameArray = barData.map((object) => {
             return object.Name
         })
@@ -347,18 +378,29 @@ return answer;
                             return obj.SA;
                                 })
                                 console.log(saArray);
+
         return (
             <div>
           <div>
-<div style={{marginTop: '10px', marginLeft: '36%'}}>
-    <PieChartNew />
-    </div>
-    <div>
-      <Container style={{marginTop: '20px'}}>
+{this.state.intitial === false ? 
+<div style={{marginTop: '10px'}}>
+
+
+<Container style={{marginTop: '20px'}}>
         <Row>
           <Col sm>
-          {this.state.area === true ?
+
+    {/* <PieChartNew /> */}
+
+    {this.state.pie === true ?
           <div>
+        <PieChartNew />
+              </div> : '' }
+ 
+
+     {this.state.area === true ?
+          <div>
+             
           <Chart>
               <ChartCategoryAxis>
                   <ChartCategoryAxisItem categories={nameArray} />
@@ -368,6 +410,7 @@ return answer;
                   <ChartSeriesItem type="verticalArea" data={likesArray} />
               </ChartSeries>
               </Chart> 
+              
               </div> : '' }
  
           { this.state.bar === true ?
@@ -381,14 +424,36 @@ return answer;
     </div> : '' }
 
     <div>
-{this.state.visibleWindow && <Window title={"Top Tweets"} onClose={this.toggleWindow}>
-Additional info
-</Window>}
-</div>
-         </Col> 
+  
+{ this.state.visibleWindow && <Window style ={{marginRight : '100%', marginTop: '10%'}} title={"Top Tweets"} onClose={this.toggleWindow}>
+<TopTweets/>
+</Window>
+
+}
+    </div>
+
+    <div>
+  
+  { this.state.visibleWindow && <Window style ={{marginRight : '100%', marginTop: '20%'}} title={"Top Tweets"} onClose={this.toggleWindow}>
+  <TopTweets/>
+  </Window>
+  
+  }
+      </div>
+      <div>
+  
+{ this.state.visibleWindow && <Window style ={{ marginRight : '100%'}} title={"Top Tweets"} onClose={this.toggleWindow}>
+<TopTweets/>
+</Window>
+
+}
+    </div>
+    </Col> 
 <Col sm>
-    <div >
-    <Chat user={this.user}
+<div id = "anim">
+<div className = "sliding">
+
+<Chat user={this.user}
                     messages={this.state.messages}
                     onMessageSend={this.addNewMessage}
                     placeholder={"Type a keyword..."}
@@ -397,11 +462,26 @@ Additional info
                    >
                    
                 </Chat>
-    </div>
-    </Col>
-    </Row>
-    </Container>
-    </div> 
+             
+                </div>
+                </div>
+</Col> 
+</Row>
+</Container>
+
+    </div> :
+
+<Chat user={this.user}
+messages={this.state.messages}
+onMessageSend={this.addNewMessage}
+placeholder={"Type a keyword..."}
+width={400}
+onActionExecute={this.onAction}
+>
+
+</Chat>
+
+ }
 </div>
                 
             </div>

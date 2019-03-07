@@ -1,0 +1,3 @@
+.anim .sliding {
+    transition: transform 1000ms ease-in-out;
+  }

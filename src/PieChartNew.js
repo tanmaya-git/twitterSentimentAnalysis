@@ -109,9 +109,7 @@ console.log(line);
     
       
     <div>  
-      <Container>
-  <Row>
-    <Col>
+      
 
     <Chart seriesColors={['orange', 'lightblue','yellow']}>
     <ChartLegend position="top" />
@@ -130,8 +128,7 @@ styles={{
   }
 }}
 /> */}
-    </Col>
-    <Col>
+  
     {/* <LineChart
 
     verticalGrid
@@ -146,10 +143,7 @@ styles={{
 
 
   
-  </Col>
-  </Row>
-  
-</Container>
+ 
 
 {/* <PieChart
  labels 

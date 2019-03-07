@@ -9,7 +9,11 @@ import input from './input';
 import PieChartNew from './PieChartNew';
 import DatafromSql from './DatafromSql';
 import KendoUILayout from './KendoUILayout.js';
-import twitter from './twitter.png'
+import twitter from './twitter.png';
+import WorldMap from './WorldMap';
+import Linechart from './Linechart';
+import Barchart from './Barchart';
+
 class App extends Component {
   render() {
     return (
@@ -46,6 +50,9 @@ class App extends Component {
         <Route exact path="/chart" component={PieChartNew} />
         <Route exact path="/sql" component={DatafromSql} />
         <Route exact path="/search" component={Search} />
+        <Route exact path="/map" component={WorldMap} />
+        <Route exact path="/line" component={Linechart} />
+        <Route exact path="/bar" component={Barchart} />
         </Switch>
         </BrowserRouter>
         </div>

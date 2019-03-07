@@ -115,13 +115,13 @@ export default class DatafromSql extends Component {
     data={piedata}
     axes
     /> */}
-<div style={{marginTop: '10px', marginLeft: '36%'}}>
-    <PieChartNew />
-    </div>
-    <div>
-      <Container style={{marginTop: '20px'}}>
-        <Row>
-          <Col sm>
+            <div style={{marginTop: '10px', marginLeft: '36%'}}>
+                <PieChartNew />
+                </div>
+                <div>
+                <Container style={{marginTop: '20px'}}>
+                    <Row>
+                    <Col sm>
     <Table striped bordered hover style={{height: '100%'}} >
   <thead style= {{fontSize: '12px', color: 'blue'}}>
     <tr>
